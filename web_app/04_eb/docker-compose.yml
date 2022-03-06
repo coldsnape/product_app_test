@@ -1,0 +1,27 @@
+version: "3"
+services:
+  weather_checking:
+    image: dwoodbridge/weather_checking
+    ports:
+      - "80:80"
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - API_KEY=${API_KEY}
+    container_name: weather_checking
+    networks:
+      - default
+      - week1_network
+  cron:
+    image: dwoodbridge/cron
+    container_name: cron
+    depends_on:
+      - weather_checking
+    ports:
+      - "80"
+    networks:
+      - default
+      - week1_network
+
+networks:
+   week1_network:
